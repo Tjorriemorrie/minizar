@@ -1,0 +1,53 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block body %}
+  <div class="container">
+
+    <div class="row">
+      <div class="col">
+        <h3>Player: {{ player }}</h3>
+        <h4>Game: {{ player.game }}</h4>
+        <p>Timer: <span id="easytimer"></span></p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div id="playerResources" hx-get="/hxp/{{ player.slug }}/resources" hx-trigger="load" hx-target="this">
+          <img width="30%" class="img img-fluid htmx-indicator" src="{% static '/img/bars.svg' %}" alt="loading..."/>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        {% for fig in player.figs.all %}
+          <div hx-get="/hxp/{{ player.slug }}/fig/{{ fig.pk }}" hx-trigger="load" hx-target="this">
+            <img width="30%" class="img img-fluid htmx-indicator" src="{% static '/img/bars.svg' %}" alt="loading..."/>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+
+
+  <script type="text/javascript">
+      var timerStatus = new easytimer.Timer(/* config */);
+      timerStatus.start({
+          precision: 'seconds',
+          startValues: {seconds: {{ player.game.run_time }},}
+      });
+
+      {% if player.game.status == 10 %}
+          timerStatus.addEventListener("secondsUpdated", function (e) {
+              $("#easytimer").html(timerStatus.getTimeValues().toString());
+          });
+      {% else %}
+          $("#easytimer").html(timerStatus.getTimeValues().toString());
+          timerStatus.stop();
+      {% endif %}
+
+  </script>
+{% endblock %}

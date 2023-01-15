@@ -16,6 +16,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from main import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.HomeView.as_view(), name='home'),
+
+    path('game/<slug:slug>', views.GameDetailView.as_view(), name='game_detail'),
+    path('hxg/<slug:slug>/status', views.HxGameStatusFormView.as_view(), name='hxg_status'),
+    path('hxg/<slug:slug>/players', views.HxGamePlayersView.as_view(), name='hxg_players'),
+    path('hxg/<slug:slug>/buildings', views.HxGameBuildingsView.as_view(), name='hxg_buildings'),
+
+    path('player/<slug:slug>', views.PlayerDetailView.as_view(), name='player_detail'),
+    path('hxp/<slug:slug>/resources', views.HxPlayerResourcesView.as_view(), name='hxp_resources'),
+    path('hxp/<slug:slug>/fig/<int:pk>', views.HxPlayerFigView.as_view(), name='hxp_fig'),
+
 ]

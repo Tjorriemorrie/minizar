@@ -1,0 +1,32 @@
+{% load humanize %}
+{% load static %}
+
+<h2 class="mt-4">Players</h2>
+
+{% for player in game.players.all %}
+  <fieldset class="my-3">
+
+    <legend>
+      <a href="{{ player.get_absolute_url }}" target="_new">{{ player.user.username }}</a>
+    </legend>
+
+    <div class="row">
+      <div class="col">
+        <h5>Resources:</h5>
+        <p>Money: {{ player.money|intcomma }}</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <h5>{{ player.figs.count }} Figs:</h5>
+        {% for fig in player.figs.all %}
+          <div hx-get="/hxp/{{ player.slug }}/fig/{{ fig.pk }}" hx-trigger="load" hx-target="this">
+            <img width="30%" class="img img-fluid htmx-indicator" src="{% static '/img/bars.svg' %}" alt="loading..."/>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </fieldset>
+{% endfor %}

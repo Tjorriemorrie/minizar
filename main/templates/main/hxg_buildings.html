@@ -1,0 +1,14 @@
+{% load humanize %}
+
+<h2 class="mt-4">Buildings</h2>
+
+{% for building in game.buildings.all %}
+<fieldset class="my-3">
+    <h4>{{ building.name }}</h4>
+    <p>Stocks:</p>
+    {% for stock in building.stocks.all %}
+    <p>{{ stock.quantity }} x{{ stock.name }} ({% for cost in stock.costs.all %}{{ cost.amount }} {{ cost.name }}{% endfor %})</p>
+    {% endfor %}
+</fieldset>
+{% endfor %}
+

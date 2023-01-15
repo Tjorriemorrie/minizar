@@ -1,0 +1,12 @@
+STATUS_NEW = 'New'
+STATUS_BUSY = 'Busy'
+STATUS_PAUSED = 'Paused'
+STATUS_DONE = 'Done'
+STATUS_ABORTED = 'Aborted'
+
+SHOW_UNUSED = 'Unused'
+SHOW_HIDDEN = 'Hidden'
+SHOW_NOT_EMPTY = 'Empty'
+SHOW_ALWAYS = 'Always'
+
+RESOURCE_MONEY = 'money'

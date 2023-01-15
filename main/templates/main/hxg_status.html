@@ -1,0 +1,31 @@
+{% load crispy_forms_tags %}
+{% crispy form %}
+
+{% if form.instance.run_time %}
+  <p>Started at: {{ form.instance.started_at }}</p>
+
+  {% if form.instance.status >= 20 %}
+    <p>Ended at: {{ form.instance.ended_at }}</p>
+  {% endif %}
+
+  <p>Timer: <span id="easytimer"></span></p>
+  <script type="text/javascript">
+      var timerStatus = new easytimer.Timer(/* config */);
+      timerStatus.start({
+          precision: 'seconds',
+          startValues: {seconds: {{ form.instance.run_time }},}
+      });
+
+      {% if form.instance.status == 10 %}
+          timerStatus.addEventListener("secondsUpdated", function (e) {
+              $("#easytimer").html(timerStatus.getTimeValues().toString());
+          });
+      {% else %}
+          $("#easytimer").html(timerStatus.getTimeValues().toString());
+          timerStatus.stop();
+      {% endif %}
+
+  </script>
+{% endif %}
+
+

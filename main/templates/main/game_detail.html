@@ -1,0 +1,36 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block body %}
+  <div class="container">
+
+    <div class="row">
+      <div class="col">
+        <h2>Game: {{ game }}</h2>
+        {% if game.init_at %}
+          <p>Config {{ game.config.name }} init at {{ game.init_at }}</p>
+        {% endif %}
+        <div id="gamestatus" hx-get="/hxg/{{ game.slug }}/status" hx-trigger="load" hx-target="this">
+          <img width="30%" class="img img-fluid htmx-indicator" src="{% static '/img/bars.svg' %}" alt="loading..."/>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+
+      <div class="col-6">
+        <div hx-get="/hxg/{{ game.slug }}/players" hx-trigger="load, every 5s">
+          <img width="30%" class="img img-fluid htmx-indicator" src="{% static '/img/bars.svg' %}" alt="loading..."/>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div hx-get="/hxg/{{ game.slug }}/buildings" hx-trigger="load">
+          <img width="30%" class="img img-fluid htmx-indicator" src="{% static '/img/bars.svg' %}" alt="loading..."/>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+{% endblock %}
